@@ -1,16 +1,25 @@
-# CMA Practice — Section A
+# CMA Practice — Part 1
 
 A mobile-first web app for practicing CMA US questions with full answer
 explanations and a 20-question mock-exam mode. Built as a single static
 `index.html` — no build step, no backend, no dependencies.
 
-- **129 questions** across 7 topics (Section A · The Financial Statements)
+- **575 questions** from two question banks, across 24 topics:
+  - Section A · The Financial Statements
+    - HOCK — 129 questions, 7 topics
+    - Gleim — Study Unit 2 (Measurement, Valuation & Disclosure: Investments
+      and Short-Term Items) — 138 questions, 9 subunits
+  - Section B · Planning, Budgeting & Forecasting
+    - HOCK — 308 questions, 8 topics
+  - Each question card is tagged with its source bank (HOCK or Gleim).
+  - Duplicate questions are removed automatically on import.
+- **Section focus** — practice or take a mock exam across all sections, or
+  narrow to Section A or Section B.
 - **Practice mode** — one question at a time, tap an option, tap **Check
-  answer** to reveal the correct answer plus the full explanation for every
-  option. Filter by topic from the home screen.
-- **Mock exam** — a random 20-question set. Answer them all, submit, and get a
-  scored report (with the ~72% ICMA-style pass benchmark) plus a per-question
-  review.
+  answer** to reveal the correct answer plus the full explanation. Jump
+  straight to any topic (grouped by bank and study unit) from the home screen.
+- **Mock exam** — a random 20-question set (respecting your section focus),
+  scored with the ~72% ICMA-style pass benchmark and a per-question review.
 - Works offline once loaded, and can be added to a phone home screen.
 
 ## Deploy to Vercel
