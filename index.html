@@ -461,15 +461,17 @@ function renderPractice(){
   skip.disabled=last; skip.onclick=()=>{S.pIdx++;render();scrollTop();};
   act.appendChild(skip);
 
-  if(!S.pRevealed[qi]){
-    const see=$(`<button class="btn gold wide">See answer</button>`);
-    see.onclick=()=>{S.pRevealed[qi]=true;render();};
-    act.appendChild(see);
-  } else {
-    const next=$(`<button class="btn gold wide">${last?'Finish':'Next'} ${last?'':IC.arrow}</button>`);
-    next.onclick=()=>{ if(last){S.screen='home';render();scrollTop();} else {S.pIdx++;render();scrollTop();} };
-    act.appendChild(next);
-  }
+  // See answer — reveals the answer/explanation in place
+  const see=$(`<button class="btn gold wide">See answer</button>`);
+  see.disabled=!!S.pRevealed[qi];
+  see.onclick=()=>{S.pRevealed[qi]=true;render();};
+  act.appendChild(see);
+
+  // Next — always available; advances to the next question (or finishes)
+  const next=$(`<button class="btn ${S.pRevealed[qi]?'gold':'ghost'} wide">${last?'Finish':'Next'} ${last?'':IC.arrow}</button>`);
+  next.onclick=()=>{ if(last){S.screen='home';render();scrollTop();} else {S.pIdx++;render();scrollTop();} };
+  act.appendChild(next);
+
   const end=$(`<button class="btn ghost auto">End</button>`);
   end.onclick=()=>{S.screen='home';render();scrollTop();};
   act.appendChild(end);
