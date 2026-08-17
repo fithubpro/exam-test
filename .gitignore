@@ -6,10 +6,3 @@
 Thumbs.db
 *.log
 node_modules
-
-node_modules/
-.env
-.env.local
-.next/
-dist/
-build/
