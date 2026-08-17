@@ -158,7 +158,7 @@
 
   /* ---------- Bottom action bar ---------- */
   .actions{position:sticky;bottom:0;z-index:15;margin-top:18px;padding:14px 0 calc(6px + env(safe-area-inset-bottom));
-    background:linear-gradient(0deg,var(--bg) 70%,rgba(12,15,20,0));display:flex;gap:10px}
+    background:linear-gradient(0deg,var(--bg) 70%,rgba(12,15,20,0));display:flex;gap:8px;flex-wrap:wrap}
   .btn{flex:1;border-radius:12px;padding:15px;font-weight:700;font-size:15px;letter-spacing:-.01em;
     display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .1s,opacity .15s;
     border:1px solid var(--border)}
@@ -166,8 +166,57 @@
   .btn.gold{background:var(--gold);color:#1a1206;border-color:var(--gold)}
   .btn.ghost{background:var(--surface);color:var(--text)}
   .btn.ghost.icon{flex:0 0 auto;width:54px}
+  .btn.auto{flex:0 0 auto;padding:15px 16px}
   .btn[disabled]{opacity:.4;pointer-events:none}
-  .btn.wide{flex:1}
+  .btn.wide{flex:1;min-width:120px}
+
+  /* ---------- Session: number rail + question ---------- */
+  .qsession{display:flex;gap:12px;align-items:flex-start;margin-top:4px}
+  .qrail{flex:0 0 46px;position:sticky;top:58px;max-height:calc(100vh - 150px);overflow-y:auto;
+    display:flex;flex-direction:column;gap:6px;padding:2px 3px 10px;
+    scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .qrail::-webkit-scrollbar{width:5px}
+  .qrail::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+  .qn{position:relative;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--surface);
+    color:var(--text-faint);font-family:var(--mono);font-weight:700;font-size:12px;display:grid;place-items:center;
+    transition:background .12s,color .12s,border-color .12s;flex:0 0 auto}
+  .qn:hover{border-color:var(--gold-line);color:var(--text-dim)}
+  .qn.cur{background:var(--gold);color:#1a1206;border-color:var(--gold)}
+  .qn.answered{background:var(--gold-soft);color:var(--gold);border-color:var(--gold-line)}
+  .qn.correct{background:var(--emerald-soft);color:var(--emerald);border-color:var(--emerald-line)}
+  .qn.wrong{background:var(--rose-soft);color:var(--rose);border-color:var(--rose-line)}
+  .qn .fg{position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:2px;
+    background:var(--gold);border:1.5px solid var(--bg)}
+  .qmain{flex:1;min-width:0}
+  .qbanner{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--text-dim);
+    padding:0 2px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* new question header / stem panel / boxed options */
+  .qhead2{display:flex;align-items:center;gap:9px;margin-bottom:14px;flex-wrap:wrap;font-size:14px}
+  .qhead2 .no{font-weight:800;font-size:16px;color:var(--text)}
+  .qhead2 .qmeta{color:var(--text-dim);line-height:1.35}
+  .qhead2 .qmeta b{color:var(--text);font-weight:700}
+  .qhead2 .qmeta .qidm{font-family:var(--mono);color:var(--gold);font-size:12.5px}
+  .flagbtn{flex:0 0 auto;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;
+    color:var(--text-faint);border:1px solid var(--border);background:var(--surface-2);transition:.14s}
+  .flagbtn.on{color:var(--gold);border-color:var(--gold-line);background:var(--gold-soft)}
+  .qpanel{background:var(--surface-2);border:1px solid var(--border-soft);border-radius:12px;padding:16px}
+  .qpanel .qtext{font-weight:500}
+  .qopts{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+  .qopt{display:flex;gap:9px;align-items:stretch}
+  .qopt .k{flex:0 0 20px;text-align:right;font-family:var(--mono);font-weight:700;font-size:14px;
+    color:var(--text-dim);padding-top:13px}
+  .qopt .box{flex:1;display:flex;gap:10px;align-items:center;text-align:left;background:var(--surface-2);
+    border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;font-size:15px;line-height:1.45;
+    color:var(--text);transition:border-color .14s,background .14s,transform .1s}
+  .qopt .box:active{transform:scale(.995)}
+  .qopt .box .t{flex:1}
+  .qopt.sel .box{border-color:var(--gold);background:var(--gold-soft)}
+  .qopt.correct .box{border-color:var(--emerald);background:var(--emerald-soft)}
+  .qopt.wrong .box{border-color:var(--rose);background:var(--rose-soft)}
+  .qopt.dim{opacity:.5}
+  .locked .qopt .box{cursor:default}
+  .qfoot{font-style:italic;color:var(--text-dim);font-size:13px;margin-top:16px}
 
   /* ---------- Results ---------- */
   .score-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;
@@ -221,7 +270,8 @@ const S = {
   pIdx:0,              // practice pointer
   pSelected:{},        // {questionIndex: 'A'} chosen answers in practice
   pRevealed:{},        // {questionIndex: true}
-  exam:null,           // {list:[idx...], answers:{}, revealed:false, pos:0}
+  pFlagged:{},         // {questionIndex: true} flagged for review
+  exam:null,           // {list:[idx...], answers:{}, flagged:{}, pos:0}
 };
 const app = document.getElementById('app');
 const byTopic = () => {
@@ -267,6 +317,7 @@ const IC = {
   check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
   x:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>',
   chev:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+  flag:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
 };
 
 /* ================= Top bar ================= */
@@ -372,40 +423,56 @@ function renderHome(){
 function startPractice(topic){
   S.topic=topic;
   S.practiceList = topic ? TOPICS[topic].slice() : scopedIndices();
-  S.pIdx=0; S.pSelected={}; S.pRevealed={};
+  S.pIdx=0; S.pSelected={}; S.pRevealed={}; S.pFlagged={};
   S.screen='practice'; render(); scrollTop();
 }
 
 function renderPractice(){
   app.appendChild(topbar(()=>{S.screen='home';render();scrollTop();}));
-  const list=S.practiceList, qi=list[S.pIdx], q=QUESTIONS[qi];
-  const bar=$(`<div></div>`);
-  // progress
-  bar.appendChild(progressRail(S.pIdx+1, list.length, false, S.topic||scopeLabel()));
-  bar.appendChild(questionCard(q, qi, {
-    selected:S.pSelected[qi], revealed:!!S.pRevealed[qi],
-    onSelect:(letter)=>{ if(S.pRevealed[qi])return; S.pSelected[qi]=letter; render(); },
-  }));
-  app.appendChild(bar);
+  const list=S.practiceList, qi=list[S.pIdx], q=QUESTIONS[qi], last=S.pIdx===list.length-1;
 
-  // actions
+  const session=$(`<div class="qsession fadein"></div>`);
+  session.appendChild(buildRail(list, {
+    stateFor:(idx,p)=>{
+      let cls='';
+      if(p===S.pIdx) cls='cur';
+      else if(S.pRevealed[idx]) cls=(S.pSelected[idx]===QUESTIONS[idx].correct?'correct':'wrong');
+      else if(S.pSelected[idx]!=null) cls='answered';
+      return {cls, flagged:!!S.pFlagged[idx]};
+    },
+    onJump:(p)=>{S.pIdx=p;render();scrollTop();}
+  }));
+  const main=$(`<div class="qmain"></div>`);
+  main.appendChild($(`<div class="qbanner">CMA Part 1 · ${esc(SECTIONS[q.section].label)} — ${esc(S.topic||scopeLabel())}</div>`));
+  main.appendChild(questionCard(q, qi, {
+    selected:S.pSelected[qi], revealed:!!S.pRevealed[qi], pos:S.pIdx+1, total:list.length,
+    flagged:!!S.pFlagged[qi], onFlag:()=>{S.pFlagged[qi]=!S.pFlagged[qi];render();},
+    onSelect:(L)=>{ if(S.pRevealed[qi])return; S.pSelected[qi]=L; render(); },
+  }));
+  session.appendChild(main);
+  app.appendChild(session);
+
   const act=$(`<div class="actions"></div>`);
-  const prev=$(`<button class="btn ghost icon">${IC.back}</button>`);
-  prev.disabled=S.pIdx===0;
-  prev.onclick=()=>{S.pIdx--;render();scrollTop();};
+  const prev=$(`<button class="btn ghost icon" title="Previous">${IC.back}</button>`);
+  prev.disabled=S.pIdx===0; prev.onclick=()=>{S.pIdx--;render();scrollTop();};
   act.appendChild(prev);
 
+  const skip=$(`<button class="btn ghost auto">Skip</button>`);
+  skip.disabled=last; skip.onclick=()=>{S.pIdx++;render();scrollTop();};
+  act.appendChild(skip);
+
   if(!S.pRevealed[qi]){
-    const check=$(`<button class="btn gold wide">Check answer</button>`);
-    check.disabled=!S.pSelected[qi];
-    check.onclick=()=>{S.pRevealed[qi]=true;render();};
-    act.appendChild(check);
+    const see=$(`<button class="btn gold wide">See answer</button>`);
+    see.onclick=()=>{S.pRevealed[qi]=true;render();};
+    act.appendChild(see);
   } else {
-    const last=S.pIdx===list.length-1;
-    const next=$(`<button class="btn gold wide">${last?'Finish':'Next question'} ${last?'':IC.arrow}</button>`);
+    const next=$(`<button class="btn gold wide">${last?'Finish':'Next'} ${last?'':IC.arrow}</button>`);
     next.onclick=()=>{ if(last){S.screen='home';render();scrollTop();} else {S.pIdx++;render();scrollTop();} };
     act.appendChild(next);
   }
+  const end=$(`<button class="btn ghost auto">End</button>`);
+  end.onclick=()=>{S.screen='home';render();scrollTop();};
+  act.appendChild(end);
   app.appendChild(act);
 }
 
@@ -414,7 +481,7 @@ function startExam(){
   const pool=scopedIndices();
   const n=Math.min(20, pool.length);
   const list=shuffle(pool).slice(0,n);
-  S.exam={list, answers:{}, submitted:false, pos:0, scope:S.scope};
+  S.exam={list, answers:{}, flagged:{}, submitted:false, pos:0, scope:S.scope};
   S.screen='exam'; render(); scrollTop();
 }
 
@@ -422,42 +489,42 @@ function renderExam(){
   const ex=S.exam;
   app.appendChild(topbar(()=>{ if(confirm('Leave the exam? Your progress will be lost.')){S.exam=null;S.screen='home';render();scrollTop();}}));
   const qi=ex.list[ex.pos], q=QUESTIONS[qi];
-  const answered=Object.keys(ex.answers).length;
+  const answered=Object.keys(ex.answers).length, last=ex.pos===ex.list.length-1;
 
-  const wrap=$(`<div></div>`);
-  wrap.appendChild(progressRail(ex.pos+1, ex.list.length, true, `${answered}/${ex.list.length} answered`));
-  wrap.appendChild(questionCard(q, qi, {
-    selected:ex.answers[qi], revealed:false, examMode:true,
-    onSelect:(letter)=>{ ex.answers[qi]=letter; render(); },
+  const session=$(`<div class="qsession fadein"></div>`);
+  session.appendChild(buildRail(ex.list, {
+    stateFor:(idx,p)=>{
+      let cls='';
+      if(p===ex.pos) cls='cur';
+      else if(ex.answers[idx]!=null) cls='answered';
+      return {cls, flagged:!!ex.flagged[idx]};
+    },
+    onJump:(p)=>{ex.pos=p;render();scrollTop();}
   }));
-
-  // dot navigator
-  const nav=$(`<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;justify-content:center"></div>`);
-  ex.list.forEach((idx,p)=>{
-    const done=ex.answers[idx]!=null;
-    const cur=p===ex.pos;
-    const d=$(`<button class="mono" style="width:30px;height:30px;border-radius:8px;font-size:12px;font-weight:700;
-      border:1px solid ${cur?'var(--gold)':'var(--border)'};
-      background:${cur?'var(--gold)':done?'var(--gold-soft)':'var(--surface)'};
-      color:${cur?'var(--bg)':done?'var(--gold)':'var(--text-faint)'};">${p+1}</button>`);
-    d.onclick=()=>{ex.pos=p;render();scrollTop();};
-    nav.appendChild(d);
-  });
-  wrap.appendChild(nav);
-  app.appendChild(wrap);
+  const main=$(`<div class="qmain"></div>`);
+  main.appendChild($(`<div class="qbanner">Mock exam · ${answered}/${ex.list.length} answered</div>`));
+  main.appendChild(questionCard(q, qi, {
+    selected:ex.answers[qi], revealed:false, pos:ex.pos+1, total:ex.list.length,
+    flagged:!!ex.flagged[qi], onFlag:()=>{ex.flagged[qi]=!ex.flagged[qi];render();},
+    onSelect:(L)=>{ ex.answers[qi]=L; render(); },
+  }));
+  session.appendChild(main);
+  app.appendChild(session);
 
   const act=$(`<div class="actions"></div>`);
-  const prev=$(`<button class="btn ghost icon">${IC.back}</button>`);
-  prev.disabled=ex.pos===0;
-  prev.onclick=()=>{ex.pos--;render();scrollTop();};
+  const prev=$(`<button class="btn ghost icon" title="Previous">${IC.back}</button>`);
+  prev.disabled=ex.pos===0; prev.onclick=()=>{ex.pos--;render();scrollTop();};
   act.appendChild(prev);
 
-  if(ex.pos < ex.list.length-1){
-    const next=$(`<button class="btn ghost wide">Next ${IC.arrow}</button>`);
-    next.onclick=()=>{ex.pos++;render();scrollTop();};
-    act.appendChild(next);
-  }
-  const submit=$(`<button class="btn gold wide">Submit exam${answered<ex.list.length?` · ${answered}/${ex.list.length}`:''}</button>`);
+  const skip=$(`<button class="btn ghost auto">Skip</button>`);
+  skip.disabled=last; skip.onclick=()=>{ex.pos++;render();scrollTop();};
+  act.appendChild(skip);
+
+  const next=$(`<button class="btn ghost wide">Next ${IC.arrow}</button>`);
+  next.disabled=last; next.onclick=()=>{ex.pos++;render();scrollTop();};
+  act.appendChild(next);
+
+  const submit=$(`<button class="btn gold auto">Submit${answered<ex.list.length?` · ${answered}/${ex.list.length}`:''}</button>`);
   submit.onclick=()=>{
     const miss=ex.list.length-answered;
     if(miss>0 && !confirm(`${miss} question${miss>1?'s':''} still unanswered — submit anyway?`)) return;
@@ -541,7 +608,7 @@ function openReview(idx){
   const pos=S.exam.list.indexOf(idx);
   const wrap=$(`<div class="fadein"></div>`);
   wrap.appendChild($(`<div class="progress-rail"><span class="count"><b>Review</b> · question ${pos+1}</span><div class="bar"><i style="width:100%"></i></div></div>`));
-  wrap.appendChild(questionCard(q, idx, {selected:S.exam.answers[idx], revealed:true}));
+  wrap.appendChild(questionCard(q, idx, {selected:S.exam.answers[idx], revealed:true, pos:pos+1, total:S.exam.list.length}));
   const act=$(`<div class="actions"></div>`);
   const back=$(`<button class="btn gold wide">Back to results</button>`);
   back.onclick=()=>{S.screen='results';render();scrollTop();};
@@ -561,52 +628,79 @@ function progressRail(cur,total,exam,label){
   return rail;
 }
 
+/* number rail for jumping between questions in a session */
+function buildRail(list, {stateFor, onJump}){
+  const rail=$(`<aside class="qrail"></aside>`);
+  rail.innerHTML = list.map((idx,p)=>{
+    const st=stateFor(idx,p);
+    return `<button class="qn ${st.cls}" data-p="${p}" aria-label="Question ${p+1}">${p+1}${st.flagged?'<span class="fg"></span>':''}</button>`;
+  }).join('');
+  rail.addEventListener('click',(e)=>{
+    const b=e.target.closest('button[data-p]');
+    if(b) onJump(+b.dataset.p);
+  });
+  requestAnimationFrame(()=>{const cur=rail.querySelector('.qn.cur'); if(cur) cur.scrollIntoView({block:'nearest'});});
+  return rail;
+}
+
 function questionCard(q, qi, opt){
-  const {selected, revealed, onSelect, examMode} = opt;
+  const {selected, revealed, onSelect, pos, total, flagged, onFlag} = opt;
   const card=$(`<div class="qcard ${revealed?'locked':''}"></div>`);
 
-  // head
-  const head=$(`<div class="qhead"></div>`);
-  head.appendChild($(`<span class="qnum">${q.section}·${q.num}</span>`));
-  head.appendChild($(`<span class="src src-${(q.source||'HOCK').toLowerCase()}">${q.source||'HOCK'}</span>`));
-  head.appendChild($(`<span class="qtopic">${esc(q.topic)}</span>`));
-  head.appendChild($(`<span class="qid">${esc(q.id)}</span>`));
+  // header: number · flag · Question ID · (Topic) · source
+  const head=$(`<div class="qhead2"></div>`);
+  if(pos!=null) head.appendChild($(`<span class="no">${pos}.</span>`));
+  if(onFlag){
+    const fb=$(`<button class="flagbtn ${flagged?'on':''}" title="Flag for review">${IC.flag}</button>`);
+    fb.onclick=(e)=>{e.stopPropagation(); onFlag();};
+    head.appendChild(fb);
+  }
+  head.appendChild($(`<span class="qmeta"><b>Question ID:</b> <span class="qidm">${esc(q.id)}</span> <span class="tp">(Topic: ${esc(q.topic)})</span></span>`));
+  head.appendChild($(`<span class="src src-${(q.source||'HOCK').toLowerCase()}" style="margin-left:auto">${q.source||'HOCK'}</span>`));
   card.appendChild(head);
 
-  // body
+  // stem panel
+  const panel=$(`<div class="qpanel"></div>`);
   if(q.table && q.table.length){
-    if(q.intro) card.appendChild($(`<div class="qtext"><span class="intro">${esc(q.intro)}</span></div>`));
+    if(q.intro) panel.appendChild($(`<div class="qtext"><span class="intro">${esc(q.intro)}</span></div>`));
     const t=$(`<table class="data"></table>`);
     q.table.forEach(([label,vals])=>{
       const tr=$(`<tr><td>${esc(label)}</td></tr>`);
       (Array.isArray(vals)?vals:[vals]).forEach(v=>tr.appendChild($(`<td class="v">${esc(v)}</td>`)));
       t.appendChild(tr);
     });
-    card.appendChild(t);
-    if(q.tail) card.appendChild($(`<div class="qtail">${esc(q.tail)}</div>`));
+    panel.appendChild(t);
+    if(q.tail) panel.appendChild($(`<div class="qtail">${esc(q.tail)}</div>`));
   } else {
-    card.appendChild($(`<div class="qtext">${esc(q.question)}</div>`));
+    panel.appendChild($(`<div class="qtext">${esc(q.question)}</div>`));
   }
+  card.appendChild(panel);
 
-  // options
-  const opts=$(`<div class="options"></div>`);
+  // boxed options with letter labels
+  const opts=$(`<div class="qopts"></div>`);
   ['A','B','C','D'].forEach(L=>{
     if(!q.options[L]) return;
-    let cls='opt';
+    let cls='qopt';
     if(revealed){
       if(L===q.correct) cls+=' correct';
       else if(L===selected) cls+=' wrong';
       else cls+=' dim';
     } else if(selected===L){ cls+=' sel'; }
-    const o=$(`<button class="${cls}"><span class="key">${L}</span><span class="txt">${esc(q.options[L])}</span></button>`);
+    const row=$(`<div class="${cls}"></div>`);
+    row.appendChild($(`<span class="k">${L}.</span>`));
+    const box=$(`<button class="box"><span class="t">${esc(q.options[L])}</span></button>`);
     if(revealed){
-      if(L===q.correct) o.appendChild($(`<span class="tick" style="color:var(--emerald)">${IC.check}</span>`));
-      else if(L===selected) o.appendChild($(`<span class="tick" style="color:var(--rose)">${IC.x}</span>`));
+      if(L===q.correct) box.appendChild($(`<span class="tick" style="color:var(--emerald)">${IC.check}</span>`));
+      else if(L===selected) box.appendChild($(`<span class="tick" style="color:var(--rose)">${IC.x}</span>`));
     }
-    if(onSelect) o.onclick=()=>onSelect(L);
-    opts.appendChild(o);
+    if(onSelect) box.onclick=()=>onSelect(L);
+    row.appendChild(box);
+    opts.appendChild(row);
   });
   card.appendChild(opts);
+
+  // footer
+  if(pos!=null && total!=null) card.appendChild($(`<div class="qfoot">Question ${pos} of ${total}</div>`));
 
   // explanation (practice reveal / review only)
   if(revealed){
@@ -620,11 +714,9 @@ function questionCard(q, qi, opt){
     if(q.correctExplanation){
       ex.appendChild($(`<div class="exp-block main"><div class="lbl">Why ${q.correct} is correct</div><p>${esc(q.correctExplanation)}</p></div>`));
     }
-    // show explanation for the user's wrong pick, if any
     if(!ok && selected && q.explanations[selected]){
       ex.appendChild($(`<div class="exp-block"><div class="lbl">Why ${selected} is wrong</div><p>${esc(q.explanations[selected])}</p></div>`));
     }
-    // remaining distractors (collapsed disclosure)
     const others=['A','B','C','D'].filter(L=>L!==q.correct && L!==selected && q.explanations[L]);
     if(others.length){
       const det=$(`<details style="margin-top:4px"><summary style="cursor:pointer;font-family:var(--mono);font-size:12px;color:var(--gold);list-style:none">Show other options ▾</summary></details>`);
