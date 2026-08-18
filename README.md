@@ -40,3 +40,15 @@ server this works out of the box. **Note:** opening `index.html` directly from
 your computer (`file://`) will not load the questions, because browsers block
 `fetch()` of local files — serve it over http (deploy it, or run a local server)
 and it works.
+
+## SEO
+`index.html` now ships with a keyword-focused title/description, Open Graph +
+Twitter cards, JSON-LD (WebApplication + FAQ), and crawlable content in the
+initial HTML (so search engines see real text even before the app's JavaScript
+runs). `robots.txt` and `sitemap.xml` are included.
+
+**Before it can rank, replace the placeholder domain** `https://cmalearn.com/`
+with your real (ideally custom) domain in: the `<link rel="canonical">`, the
+`og:`/`twitter:` URLs, the JSON-LD `url`, `robots.txt`, and `sitemap.xml`.
+Then add the site to Google Search Console and submit the sitemap. Optionally add
+a 1200×630 `og-image.png` for social share previews.

@@ -2,14 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#0C0F14" />
-<meta name="description" content="CMA US exam practice — questions, explanations, and 20-question mock exams." />
+<meta name="description" content="2,000+ free CMA Part 1 practice questions with full answer explanations — Sections A, B & C, topic drills and 20-question mock exams. No signup, works on mobile and desktop." />
+<meta name="keywords" content="CMA practice questions, CMA Part 1 practice test, free CMA questions, CMA exam questions, certified management accountant, CMA MCQ, CMA mock exam, performance management, planning budgeting forecasting, variance analysis practice" />
+<meta name="author" content="CMA Practice" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href="https://cmalearn.com/" />
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="CMA Practice" />
+<meta property="og:title" content="Free CMA Part 1 Practice Questions — 2,067 MCQs with Explanations" />
+<meta property="og:description" content="Practice CMA Part 1 (Financial Planning, Performance & Analytics) with 2,000+ free exam-style questions and full explanations. Sections A, B & C, topic drills and mock exams." />
+<meta property="og:url" content="https://cmalearn.com/" />
+<meta property="og:image" content="https://cmalearn.com/og-image.png" />
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Free CMA Part 1 Practice Questions — 2,067 MCQs with Explanations" />
+<meta name="twitter:description" content="2,000+ free CMA Part 1 practice questions with full explanations. Sections A, B & C, topic drills and 20-question mock exams. No signup." />
+<meta name="twitter:image" content="https://cmalearn.com/og-image.png" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230C0F14'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%23E5B567' font-family='monospace' font-weight='700'%3E%CE%A3%3C/text%3E%3C/svg%3E" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="CMA Practice" />
 <meta name="mobile-web-app-capable" content="yes" />
-<title>CMA Practice · Part 1</title>
+<title>Free CMA Part 1 Practice Questions – 2,067 MCQs with Explanations | Sections A–C</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -250,12 +267,115 @@
   .fadein{animation:fade .35s ease}
   .footer-note{text-align:center;color:var(--text-faint);font-size:11px;font-family:var(--mono);
     margin:26px 0 6px;letter-spacing:.03em}
+  /* ---------- SEO hero / no-JS + loading content ---------- */
+  .seo-hero{max-width:640px;margin:0 auto;padding:34px 2px 60px;animation:fade .3s ease}
+  .seo-mark{width:44px;height:44px;border-radius:11px;background:var(--gold-soft);border:1px solid var(--gold-line);
+    color:var(--gold);font-family:var(--mono);font-weight:700;font-size:22px;display:grid;place-items:center;margin-bottom:22px}
+  .seo-hero h1{font-size:32px;line-height:1.1;letter-spacing:-.03em;font-weight:800;margin-bottom:14px}
+  .seo-hero .lead{font-size:16px;color:var(--text-dim);margin-bottom:18px;line-height:1.55}
+  .seo-hero p{color:var(--text-dim);font-size:15px;line-height:1.6;margin-bottom:14px}
+  .seo-sections{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:8px}
+  .seo-sections li{background:var(--surface);border:1px solid var(--border-soft);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--text-dim)}
+  .seo-sections strong{color:var(--text)}
+  .seo-loading{font-family:var(--mono);font-size:12px;color:var(--gold)!important;letter-spacing:.05em}
+  .seo-faq{margin-top:30px;border-top:1px solid var(--border-soft);padding-top:22px}
+  .seo-sections-detail{margin-top:28px}
+  .seo-sections-detail article{margin-bottom:22px}
+  .seo-sections-detail h2{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:var(--text)}
+  .seo-sections-detail p{color:var(--text-dim);font-size:14px;line-height:1.6;margin-bottom:10px}
+  .seo-topics{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px}
+  .seo-topics li{font-size:12px;color:var(--text-dim);background:var(--surface);border:1px solid var(--border-soft);
+    border-radius:999px;padding:5px 10px;line-height:1.2}
+  .seo-topics li span{color:var(--text-faint);font-family:var(--mono);margin-left:5px}
+  .seo-faq h2{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+  .seo-faq h3{font-size:15px;font-weight:700;color:var(--text);margin:14px 0 4px}
+
+  /* ---------- Responsive (desktop) ---------- */
+  @media (min-width:680px){
+    .app{max-width:700px;padding-left:24px;padding-right:24px}
+    .hero h1{font-size:42px}
+    .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+    .modes .section-label{grid-column:1/-1;margin-bottom:0}
+    .modes .mode{margin-bottom:0}
+    .seo-hero h1{font-size:38px}
+  }
+  @media (min-width:920px){
+    .app.screen-practice,.app.screen-exam,.app.screen-results{max-width:1000px}
+    .app.screen-practice .qrail,.app.screen-exam .qrail{flex-basis:52px}
+    .app.screen-practice .qopt .box,.app.screen-exam .qopt .box{padding:15px 18px}
+    .app.screen-practice .qpanel,.app.screen-exam .qpanel{padding:20px}
+  }
+
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
   ::selection{background:var(--gold-soft)}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["WebApplication","EducationalApplication"],
+      "name": "CMA Practice — Part 1",
+      "url": "https://cmalearn.com/",
+      "applicationCategory": "EducationApplication",
+      "operatingSystem": "Web",
+      "description": "Free CMA Part 1 practice with 2,067 exam-style multiple-choice questions and full answer explanations, covering Sections A (Financial Statements), B (Planning, Budgeting & Forecasting) and C (Performance Management). Includes topic drills and 20-question mock exams.",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "about": { "@type": "Thing", "name": "Certified Management Accountant (CMA) Part 1 exam" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Is this CMA Part 1 practice free?","acceptedAnswer":{"@type":"Answer","text":"Yes. All 2,067 practice questions, explanations and mock exams are free to use, with no signup required."}},
+        {"@type":"Question","name":"How many CMA Part 1 practice questions are included?","acceptedAnswer":{"@type":"Answer","text":"2,067 exam-style multiple-choice questions with detailed answer explanations, drawn from HOCK, Gleim and Wiley-style banks and de-duplicated."}},
+        {"@type":"Question","name":"Which CMA Part 1 sections are covered?","acceptedAnswer":{"@type":"Answer","text":"Section A (External Financial Reporting / The Financial Statements), Section B (Planning, Budgeting & Forecasting) and Section C (Performance Management)."}},
+        {"@type":"Question","name":"What is the passing score for CMA Part 1?","acceptedAnswer":{"@type":"Answer","text":"You need a scaled score of 360 out of 500 to pass CMA Part 1, which corresponds to roughly 72% correct."}},
+        {"@type":"Question","name":"How many questions are on the real CMA Part 1 exam?","acceptedAnswer":{"@type":"Answer","text":"CMA Part 1 has 100 multiple-choice questions plus 2 case-based questions (CBQs), taken over 4 hours. Essays were replaced by CBQs on 1 July 2026."}}
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
-<div class="app" id="app"></div>
+<main class="app" id="app">
+  <section class="seo-hero">
+    <div class="seo-mark">&#931;</div>
+    <h1>Free CMA Part 1 Practice Questions</h1>
+    <p class="lead">2,067 exam-style multiple-choice questions with full answer explanations for the Certified Management Accountant (CMA) Part 1 exam &mdash; Financial Planning, Performance, and Analytics. Practice by topic, sit 20-question mock exams, and read a detailed explanation for every answer. Free, no signup, on mobile and desktop.</p>
+    <p class="seo-loading">Loading the practice engine&hellip;</p>
+    <div class="seo-sections-detail">
+      <article>
+        <h2>Section A — External Financial Reporting Decisions</h2>
+        <p>CMA Part 1 Section A covers external financial reporting decisions: preparing and interpreting the balance sheet, income statement, statement of comprehensive income, the statement of cash flows (direct and indirect method) and the statement of changes in equity, along with revenue recognition and the measurement, valuation and disclosure of assets and liabilities. 267 free practice questions across 16 topics:</p>
+        <ul class="seo-topics"><li>The Indirect Method<span>35</span></li><li>Investments in Debt Securities<span>30</span></li><li>Statement of Cash Flows Overview<span>23</span></li><li>Inventory -- Cost Flow Methods<span>21</span></li><li>The Financial Statements and the Balance Sheet<span>20</span></li><li>Investing and Financing Activities, SCF Disclosures<span>17</span></li><li>Accounts Receivable<span>17</span></li><li>Income Statement<span>14</span></li><li>Statement of Comprehensive Income<span>14</span></li><li>Measurement of Inventory Subsequent to Initial Recognition<span>14</span></li><li>Inventory – Fundamentals<span>13</span></li><li>Different Types of Expenses and Liabilities<span>12</span></li><li>Business Combinations and Consolidated Financial Statements<span>11</span></li><li>Investments in Equity Securities<span>10</span></li><li>Equity Method<span>10</span></li><li>Statement of Owners Equity and Limitations of Financial Statements<span>6</span></li></ul>
+      </article>
+      <article>
+        <h2>Section B — Planning, Budgeting & Forecasting</h2>
+        <p>Section B covers planning, budgeting and forecasting: the budgeting process and the master budget, operating and cash budgets, budget methodologies (flexible, rolling, zero-based and activity-based budgeting), forecasting techniques such as regression analysis, learning curves and expected value, and building pro forma financial statements. 1473 free practice questions across 36 topics:</p>
+        <ul class="seo-topics"><li>Annual Profit Plan and Supporting Schedules<span>108</span></li><li>Comparing Flexible, Rolling, Activity-Based, Zero-Based, and Project Budgeting<span>107</span></li><li>Capital Expenditures and Cash Budgets<span>80</span></li><li>Budgeting for Production Costs<span>78</span></li><li>Pro Forma Financial Statements<span>72</span></li><li>Budget Methodologies<span>56</span></li><li>The Budgeting Process<span>56</span></li><li>Building Budget Standards<span>55</span></li><li>Strategy Implementation and Budgeting<span>53</span></li><li>Sales Budgets and Production Budgets<span>52</span></li><li>Budgeting Concepts<span>49</span></li><li>Expected Value<span>49</span></li><li>Strategic Planning<span>47</span></li><li>Expected Value Computations and Learning Curve Analysis<span>41</span></li><li>Wrapping Up Operational Budgeting<span>41</span></li><li>Sales Forecasts and Pro Forma Financial Statements<span>38</span></li><li>Learning Curve Analysis<span>37</span></li><li>Strategic Objectives and Generic Strategy<span>37</span></li><li>Operating Budget Calculations -- Production and Direct Materials<span>36</span></li><li>Projecting Cash Collections<span>36</span></li><li>Forecasting Techniques - Probability<span>34</span></li><li>Strategy and SWOT<span>34</span></li><li>Specific Strategy Tools<span>34</span></li><li>Roles of Budgets and the Budgeting Process<span>26</span></li><li>The Cash Budget<span>26</span></li><li>Strategic Management<span>25</span></li><li>The Master Budget<span>24</span></li><li>Regression Analysis<span>24</span></li><li>Forecasting Techniques - Learning Curves<span>23</span></li><li>Correlation and Regression<span>19</span></li><li>Forecasting Techniques - Regression Analysis<span>15</span></li><li>Top-Level Planning and Analysis<span>15</span></li><li>Operating Budget Calculations -- Others<span>15</span></li><li>The Balanced Scorecard<span>12</span></li><li>Sensitivity Analysis<span>11</span></li><li>Budgeting and Standard Costs<span>8</span></li></ul>
+      </article>
+      <article>
+        <h2>Section C — Performance Management</h2>
+        <p>Section C covers performance management: variance analysis for direct materials, direct labor, overhead, sales and market variances, responsibility accounting and responsibility centers, the contribution-margin income statement, transfer pricing, and performance measures including return on investment (ROI), residual income and the balanced scorecard. 327 free practice questions across 12 topics:</p>
+        <ul class="seo-topics"><li>Overhead Variances<span>54</span></li><li>Return on Investment and Residual Income<span>47</span></li><li>Manufacturing Input Variances -- Direct Materials<span>44</span></li><li>Transfer Pricing<span>31</span></li><li>Manufacturing Input Variances -- Direct Labor<span>30</span></li><li>Responsibility Centers<span>30</span></li><li>Introduction to Variance Analysis<span>20</span></li><li>Contribution Income Statement<span>19</span></li><li>Sales Variances<span>17</span></li><li>Multiple Performance Measures<span>16</span></li><li>Multiple Input Variances<span>14</span></li><li>Market Variances<span>5</span></li></ul>
+      </article>
+    </div>
+    <div class="seo-faq">
+      <h2>Frequently asked questions</h2>
+      <h3>Is this CMA Part 1 practice free?</h3>
+      <p>Yes &mdash; all 2,067 questions, explanations and mock exams are free to use, with no signup required.</p>
+      <h3>Which CMA Part 1 sections are covered?</h3>
+      <p>Sections A (The Financial Statements), B (Planning, Budgeting &amp; Forecasting) and C (Performance Management) &mdash; roughly 55% of the Part 1 exam by weight.</p>
+      <h3>What is the CMA Part 1 passing score?</h3>
+      <p>You need a scaled score of 360 out of 500 to pass CMA Part 1 &mdash; roughly 72% correct.</p>
+      <h3>How many questions are on the real CMA Part 1 exam?</h3>
+      <p>CMA Part 1 has 100 multiple-choice questions plus 2 case-based questions (CBQs), taken over 4 hours.</p>
+    </div>
+  </section>
+</main>
 
 <script>
 let QUESTIONS = [];
@@ -336,6 +456,7 @@ function topbar(back){
 
 /* ================= Render root ================= */
 function render(){
+  app.className='app screen-'+S.screen;
   app.innerHTML='';
   if(S.screen==='home') return renderHome();
   if(S.screen==='practice') return renderPractice();
@@ -375,7 +496,7 @@ function renderHome(){
   focus.appendChild(seg);
   wrap.appendChild(focus);
 
-  const modes=$(`<div></div>`);
+  const modes=$(`<div class="modes"></div>`);
   const scopeNote = S.scope==='all' ? 'across both sections' : `from ${SECTIONS[S.scope].label}`;
   const practiceBtn=$(`
     <button class="mode primary">
@@ -735,7 +856,6 @@ function questionCard(q, qi, opt){
 }
 
 /* ================= boot ================= */
-app.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:72vh;color:var(--text-dim);font-family:var(--sans);font-size:15px">Loading questions\u2026</div>';
 async function boot(){
   try{
     const res = await fetch('questions.json', {cache:'no-store'});
