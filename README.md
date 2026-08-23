@@ -5,7 +5,7 @@ explanations and a 20-question mock-exam mode. Built as a single static
 `index.html` — no build step, no backend, no dependencies. Open it directly in
 a browser or deploy the folder to any static host.
 
-- **2,067 questions** from three question banks (HOCK, Gleim, Wiley), across
+- **2,516 questions** from HOCK, Gleim and Wiley banks, across Sections A, B, C and F
   64 topics and three exam sections:
   - Section A · The Financial Statements — 267 questions
   - Section B · Planning, Budgeting & Forecasting — 1,473 questions
